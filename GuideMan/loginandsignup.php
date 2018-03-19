@@ -1,4 +1,6 @@
 <?php
+
+//Login Check
 if (isset($_POST["submitLogin"])) {
     $servername = "localhost";
       $username = "root";
@@ -13,20 +15,37 @@ if ($conn->connect_error) {
 
        $touristemail = $_POST["username"];
        $touristpasswordUser = $_POST["password"];
-
+        $radioVal = $_POST["radio"];
+        
+    //Tourist Login
+    if($radioVal == 'touristRadio')
+    {
+        
        $result = "SELECT * FROM tbl_tourist WHERE touristemail='$touristemail' AND touristpassword='$touristpasswordUser'";
     
        $query = mysqli_query($conn, $result);
        $row = mysqli_fetch_array($query);
           if($query->num_rows > 0)
            {
+              
+              ////Starting the session
+              session_start();
+              
+              $touristname = $row['touristname'];
+              
              if ($row['touristemail']= $touristemail && $row['touristpassword']=$touristpasswordUser)
              {
 //             $returnArray['message'] = "WELCOME";
 //             $returnArray['id'] = $row['tourist_id'];
+                 
+                 ///Storing in session
+                 $_SESSION['status'] = true;
+                 $_SESSION['name'] = $touristname;
+                 $_SESSION['url'] = "tourist_profile.php";                
+                 $_SESSION['email'] = $touristemail;
+                 
               echo "<script>
-                window.location.href='home.html'; 
-                alert('Welcome');";
+                window.location.href='index.php'; ";
               echo "</script>";
             
               }
@@ -37,11 +56,59 @@ if ($conn->connect_error) {
                 echo "window.location.href='loginandsignup.php';";
                echo "</script>";
            }
-       $conn->close();
-
     }
     
-    if (isset($_POST["SubmitSignUp"])) {
+    //Guide Login
+    else if($radioVal == 'guideRadio')
+    {
+       $result = "SELECT * FROM tbl_guide WHERE guideemail='$touristemail' AND guidepassword='$touristpasswordUser'";
+    
+       $query = mysqli_query($conn, $result);
+       $row = mysqli_fetch_array($query);
+          if($query->num_rows > 0)
+           {
+              
+              ////Starting the session
+              session_start();
+              
+             if ($row['guideemail']= $touristemail && $row['guidepassword']=$touristpasswordUser)
+             {
+//             $returnArray['message'] = "WELCOME";
+//             $returnArray['id'] = $row['tourist_id'];
+                 
+                 ///Storing in session
+                 
+                 $_SESSION['email'] = $touristemail;
+                 
+              echo "<script>
+                window.location.href='guide_profile.php'; ";
+              echo "</script>";
+            
+              }
+          }
+           else{
+               echo "<script>
+                alert('Enter Proper Email or password');";
+                echo "window.location.href='loginandsignup.php';";
+               echo "</script>";
+           } 
+        
+    }
+    
+    else
+    {
+        echo "<script>
+                alert('Enter Proper Email or password');";
+                echo "window.location.href='loginandsignup.php';";
+               echo "</script>";
+    }
+    
+       $conn->close();
+
+}
+   
+//LogOn event 
+if (isset($_POST["SubmitSignUp"])) {
       $servername = "localhost";
       $username = "root";
       $password = "";
@@ -84,12 +151,12 @@ if ($conn->connect_error) {
         
         if ($conn->query($sql) === TRUE) {
             echo "<script>
-                window.location.href='loginandsignup.php';
+                window.location.href='index.php';
                 alert('you are successfully signed up');";
               echo "</script>";
        } else {
          echo "<script>
-                window.location.href='loginandsignup.php';
+                window.location.href='index.php';
                 alert('Use another email');";
               echo "</script>";
        }
@@ -97,6 +164,8 @@ if ($conn->connect_error) {
     }
 
 ?>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -167,8 +236,8 @@ if ($conn->connect_error) {
 
 
 		<header id="fh5co-header-section" class="sticky-banner">
-			<div class="container">
-				<div class="nav-header">
+			<div class="container" style="height:125px; margin:0px; width:100%;">
+				<div class="nav-header" style="top:15px;">
 					<a href="#" class="js-fh5co-nav-toggle fh5co-nav-toggle dark"><i></i></a>
 					<h1 id="fh5co-logo"><a href="index.html"><img src="Guideman_logo.jpg" height="100" width="200"/></a>
                     </h1>
@@ -176,11 +245,11 @@ if ($conn->connect_error) {
 					<!-- START #fh5co-menu-wrap -->
 					<nav id="fh5co-menu-wrap" role="navigation">
 						<ul class="sf-menu" id="fh5co-primary-menu">
-							<li class=""><a href="index.html">Home</a></li>
-                            <li><a href="famousDestination.html">Famous Destination</a></li>
-							<li><a href="aboutUs.html">About Us</a></li>
-							<li><a href="contact.html">Contact Us</a></li>
-							<li class="active"><a href="loginandsignup.html">Login/Sign up</a></li>
+							<li class=""><a href="index.php">Home</a></li>
+                            <li><a href="famous_destination.php">Famous Destination</a></li>
+							<li><a href="About_us.php">About Us</a></li>
+							<li><a href="contact.php">Contact Us</a></li>
+							<li class="active"><a href="loginandsignup.php">Login/Sign up</a></li>
 							
 						</ul>
 					</nav>
@@ -206,6 +275,9 @@ if ($conn->connect_error) {
 					  <input type="password" name="password" required="required" class="password" id="loginPassword" /> 
 					  <div class="check">
 <!--							<label class="checkbox w3l"><input type="checkbox" name="checkbox" required="required"><i> </i>I accept the terms and conditions</label>-->
+                          Guide<input type="radio" style="margin-right:25px; margin-left:10px;" name="radio" value="guideRadio" id="guideradiobutton"/>                              
+                          Tourist<input type="radio" style="margin-right:25px; margin-left:10px;" name="radio" value="touristRadio" id="touristradiobutton"/> 
+ 
 					 </div>
 					  <input type="submit" value="LogIn" class="agileinfo" style="width:91%;" name="submitLogin"/>
 					</form>

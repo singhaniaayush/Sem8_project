@@ -3,13 +3,18 @@ body{
     padding: 0px;
 }
 
-header{
-    
+main{
+ padding: 25px;    
 }
 
 #rightpanel{
     margin:0px;
     padding: 0px;   
+}
+
+/*main panel part*/
+.nav_format{
+    font-size: 14px;
 }
 
 /*Left Panel*/
