@@ -1,11 +1,9 @@
 <?php
 session_start();
 
-$tab = 'ayush';
-if(isset($_SESSION['status'])){
-    
+if(isset($_SESSION["status"])){
     $tab = $_SESSION['name'];
-    $url = 'tourist_profile.php';
+    $url = $_SESSION['url'];
 }
 else{
     $tab = 'Login/SignUp';
@@ -108,7 +106,7 @@ else{
                             <div class="col-sm-5 col-md-5">
 								<div class="tab-content">
                                     <div class="input-field">
-									   <input type="text" class="fa fa-search form-control" id="from-place" placeholder="&#xF002; Search" />
+<!--									   <input type="text" class="fa fa-search form-control" id="from-place" placeholder="&#xF002; Search" />-->
                                 </div>
                                 </div>
 
@@ -141,7 +139,7 @@ else{
 								<h3>Ayush Singhania</h3>
 								<span>2 Years of Experience</span>
 								<span class="price"></span>
-								<a class="btn btn-primary btn-outline" href="#">Hire now <i class="icon-arrow-right22"></i></a>
+								<a class="btn btn-primary btn-outline" href="loginandsignup.php">Hire now <i class="icon-arrow-right22"></i></a>
 							</div>
 						</div>
 					</div>
@@ -152,7 +150,7 @@ else{
 								<h3>Yash Rathod</h3>
 								<span>1 Year of Experience</span>
 								<span class="price"></span>
-								<a class="btn btn-primary btn-outline" href="#">Hire now <i class="icon-arrow-right22"></i></a>
+								<a class="btn btn-primary btn-outline" href="loginandsignup.php">Hire now <i class="icon-arrow-right22"></i></a>
 							</div>
 						</div>
 					</div>
@@ -163,12 +161,12 @@ else{
 								<h3>Vijay shah</h3>
 								<span>5 Years of Experience </span>
 								<span class="price"></span>
-								<a class="btn btn-primary btn-outline" href="#">Hire now <i class="icon-arrow-right22"></i></a>
+								<a class="btn btn-primary btn-outline" href="loginandsignup.php">Hire now <i class="icon-arrow-right22"></i></a>
 							</div>
 						</div>
 					</div>
 					<div class="col-md-12 text-center animate-box">
-						<p><a class="btn btn-primary btn-outline btn-lg" href="#">See All Offers <i class="icon-arrow-right22"></i></a></p>
+						<p><a class="btn btn-primary btn-outline btn-lg" href="loginandsignup.php"> Hire Guide <i class="icon-arrow-right22"></i></a></p>
 					</div>
 				</div>
 			</div>
@@ -228,28 +226,28 @@ else{
 					<div class="col-md-12">
 						<ul id="fh5co-destination-list" class="animate-box">
 							<li class="one-forth text-center" style="background-image: url(images/agra.jpg); ">
-								<a href="#">
+								<a>
 									<div class="case-studies-summary">
 										<h2>Agra</h2>
 									</div>
 								</a>
 							</li>
 							<li class="one-forth text-center" style="background-image: url(images/udaipur.jpg); ">
-								<a href="#">
+								<a>
 									<div class="case-studies-summary">
 										<h2>Udaipur</h2>
 									</div>
 								</a>
 							</li>
 							<li class="one-forth text-center" style="background-image: url(images/Somnath.jpg); ">
-								<a href="#">
+								<a>
 									<div class="case-studies-summary">
 										<h2>Somnath</h2>
 									</div>
 								</a>
 							</li>
 							<li class="one-forth text-center" style="background-image: url(images/kerela.jpg); ">
-								<a href="#">
+								<a>
 									<div class="case-studies-summary">
 										<h2>Kerela</h2>
 									</div>
@@ -257,7 +255,7 @@ else{
 							</li>
 
 							<li class="one-forth text-center" style="background-image: url(images/darjeling.jpg); ">
-								<a href="#">
+								<a>
 									<div class="case-studies-summary">
 										<h2>Darjeeling</h2>
 									</div>
@@ -267,40 +265,40 @@ else{
 								<div class="title-bg">
 									<div class="case-studies-summary">
 										<h2>Most Famous Destinations</h2>
-										<span><a href="#">View All Destinations</a></span>
+										<span><a href="famous_destination.php">View All Destinations</a></span>
 									</div>
 								</div>
 							</li>
 							<li class="one-forth text-center" style="background-image: url(images/delhi.jpg); ">
-								<a href="#">
+								<a>
 									<div class="case-studies-summary">
 										<h2>Delhi</h2>
 									</div>
 								</a>
 							</li>
 							<li class="one-forth text-center" style="background-image: url(images/jaipur.jpg); ">
-								<a href="#">
+								<a>
 									<div class="case-studies-summary">
 										<h2>Jaipur</h2>
 									</div>
 								</a>
 							</li>
 							<li class="one-forth text-center" style="background-image: url(images/shimla.jpg); ">
-								<a href="#">
+								<a>
 									<div class="case-studies-summary">
 										<h2>Shimla</h2>
 									</div>
 								</a>
 							</li>
 							<li class="one-forth text-center" style="background-image: url(images/goa.jpg); ">
-								<a href="#">
+								<a>
 									<div class="case-studies-summary">
 										<h2>Goa</h2>
 									</div>
 								</a>
 							</li>
 							<li class="one-forth text-center" style="background-image: url(images/mumbai.jpg); ">
-								<a href="#">
+								<a>
 									<div class="case-studies-summary">
 										<h2>Mumbai</h2>
 									</div>

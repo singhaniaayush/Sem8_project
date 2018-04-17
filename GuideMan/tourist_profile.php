@@ -1,7 +1,7 @@
 <?php
-    session_start();
+   session_start();
 
-if(!isset($_SESSION['name'])){
+if(!isset($_SESSION['status'])){
      echo "<script>
                 window.location.href='loginandsignup.php'; ";
      echo "</script>";
@@ -10,10 +10,6 @@ if(!isset($_SESSION['name'])){
     $touristname = $_SESSION['name'];
     $tab = $_SESSION['name'];
     $url = 'tourist_profile.php';
-
-echo "<script>
-                alert('$tuoristemail');";
-               echo "</script>";
 
     $servername = "localhost";
       $username = "root";
@@ -26,13 +22,9 @@ echo "<script>
       die("Connection failed: " . $conn->connect_error);
     }
 
-    $query_result = "select * from tbl_tourist WHERE touristemail='$touristemail'";
+    $query_result = "select * from tbl_tourist WHERE touristemail='$tuoristemail'";
     $query = mysqli_query($conn, $query_result);
     $row = mysqli_fetch_array($query);
-
-    if($query->num_rows>0){
-        echo "<script type='text/javascript'>alert('$tuoristemail');</script>";
-    }
 
        $tourist_id = $row['tourist_id'];
        $profile_photo = $row['profile_photo'];
@@ -44,7 +36,8 @@ echo "<script>
        $touristcity = $row['touristcity'];
        $touristgender = $row['touristgender'];
        $touristdateofbirth = $row['touristdateofbirth'];
-       $touristnumber = $row['touristnumber'];
+       $touristnumber = $row['touristnumber'];    
+    
 ?>
 
 <!DOCTYPE HTML>
@@ -106,15 +99,6 @@ echo "<script>
         
     
         <script type="text/javascript">            
-
-
-            function openNav() {
-                document.getElementById("mySidenav").style.width = "250px";
-            }
-
-            function closeNav() {
-                document.getElementById("mySidenav").style.width = "0px";
-            }
             
             function profileclick(){
               document.getElementById("#profile").style.display = "grid";                
@@ -144,26 +128,48 @@ echo "<script>
               document.getElementById("#history").style.display = "block";
             }
            
-            function datadisplay(){
-             document.getElementsById("name").innerHTML = document.getElementsById("name").innerHTML +   touristname;
+            function formsubmit(){
+                var state = document.getElementById("state").value;
+                var city = document.getElementById("city").value;
+                var from = document.getElementById("start").value;
+                var to = document.getElementById("end").value;
+                alert(state+"-"+city+"-"+from+"-"+to);
             }
             
             function logout(){
                 <?php
-                    session_destroy();
+                    $_SESSION['status'] == false;
                 ?>
             }
             
-        </script>
+            function myFunction() {
+              var input, filter, table, tr, td, i;
+              input = document.getElementById("myInput");
+              filter = input.value.toUpperCase();
+              table = document.getElementById("myTable");
+              tr = table.getElementsByTagName("tr");
+              for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0];
+                if (td) {
+                  if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                  } else {
+                    tr[i].style.display = "none";
+                  }
+                }       
+              }
+            }
+            
+        </script>        
         
     </head>
 
     
-    <body onload="datadisplay()">
+    <body>
     
     <!--Header section-->
         <header id="fh5co-header-section" class="sticky-banner">
-			<div class="container" style="height:125px; margin:0px; width:100%;">
+			<div class="container" style="height:125px; margin:0px; width:100%; background-color: white;">
 				<div class="nav-header" style="top:15px;">
 					<a href="#" class="js-fh5co-nav-toggle fh5co-nav-toggle dark"><i></i></a>
 					<h1 id="fh5co-logo"><a href="index.html"><img src="Guideman_logo.jpg" height="100" width="200"/></a></h1>
@@ -174,9 +180,7 @@ echo "<script>
                             <li><a href="famous_destination.php">Famous Destination</a></li>
 							<li><a href="About_us.php">About Us</a></li>
 							<li><a href="contact.php">Contact Us</a></li>
-							<?php
-                                echo "<li class='active'    ><a href= $url > $tab  </a></li>";
-                            ?>
+                            <li><a href="logout.php">LogOut</a></li>			
 							
 						</ul>
 					</nav>
@@ -188,114 +192,505 @@ echo "<script>
         
         <!--Main Body Part-->
         <main>
-        
-             <div id="leftpanel">
-                                 
-                 
-                 <div id="mySidenav" class="sidenav" style="margin-top:6.75%;">
-                     
-                     <div class="image">
-                         
-                         <figure style="align-content:center; vertical-align: middle;">
-                             <img src="images/mumbai.jpg" alt="" style="width: 200px; height: 200px;" />
-                             <figcaption style="font-weight: 500; color: white; font-size: 16px;">GuideMan</figcaption>
-                         </figure>
-                                             
-                     </div>
-                     
-                  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-                  <a href="#profile" onclick="profileclick()"> Profile </a>
-                  <a href="#plan_tour" onclick="tourclick()"> Plan a tour </a>
-                  <a href="#hire-guide" onclick="hireguide()"> Hire Guide </a>
-                  <a href="#history" onclick="history()"> History </a>
-                  <a href="famous_destination.html"> Famous Destinations </a>
-                  <a href="index.php" onclick="logout()"> Logout </a>
-                </div>
-                
-            </div>
             
-            <div id="rightpanel">
-                
-                <div class="header" style="background-color: #111;">
-                       <span style="font-size:35px;cursor:pointer;color:white;padding-left: 15px" onclick="openNav()">&#9776;</span>  
-                </div>
-                
-                <div class="container" style="width:100%; margin-bottom:-25pxpx;">
-                    <p class="profile_name">Profile Name</p>
-                </div>
-                
-                <div id="#profile" class="profile_container" style="width: 100%;">
-                
-                    <div class="data" style="padding-bottom: 100px;">
-                        <p id="name" style="padding-bottom: 15px"> Name:   </p>
-                        <p id="email" style="padding-bottom: 15px"> E-mail: </p>
-                        <p id="address" style="padding-bottom: 15px"> Address:</p>
-                        <p id="state" style="padding-bottom: 15px"> State: </p>
-                        <p id="city" style="padding-bottom: 15px"> City: </p>
-                    </div>
-                    
-                    <div>&nbsp;</div>
-                    
-                </div>
-                
-                <div id="#plan_tour" class="plan_tour_container" style="display: none;">
-                    
-                    <div class="plan-trip"> Plan a trip!!! </div>
-                    
-                    <div class="tour_plan">
+            <div class="container" style="width: 100%; background-color: white;">
+               <div class="panel panel-warning" style="font-size: 20px">
+                   <div class="panel-heading"><b id="tourist_name"><?php echo "$tab"; ?></b></div>
+                  <div class="panel-body">
+                      <ul class="nav nav-tabs nav-justified nav_format">
+                        <li style="font-size: 20px"><a href="#profile" onclick="profileclick()">Profile</a></li>
+                        <li style="font-size: 20px"><a href="#plan_tour" onclick="tourclick()">Tour Planning</a></li>
+                        <li style="font-size: 20px"><a href="#hire-guide" onclick="hireguide()">Hire Guide</a></li>
+                        <li style="font-size: 20px"><a href="#history" onclick="history()">History</a></li>
+                      </ul>
+                      
+                      <!-- Profile Section -->
+                      <div id="#profile" class="profile_container" style="width: 100%;">
                         
-                        <div>
-                         <p id="date_show" style="font-weight: 550; margin: 25px;"> No. Of Days:  </p> 
-                        </div>              
+                        <div class="data" style="font-size:20px;">
+                            <!-- Edit Profile Option -->
+                            <button type="button" class="btn btn-warning btn-md edit_data" data-toggle="modal" data-target="#editdata" style="float:right; margin:25px; margin-top:0px;"> Edit Data </button>
+                            
+                            <!-- Edit Profile Modal -->
+                            <div class="modal fade" id="editdata" role="dialog">
+                                <div class="modal-dialog modal-lg">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                      <h4 class="modal-title">Edit Data</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                      <table class="table">
+                                          <tr>
+                                              <td style="vertical-align:middle;"> Name: </td>
+                                              <td style="vertical-align:middle;">
+                                                  <input type="text" style="width:250px; font-size:18px;" class="form-control" id="edit_name" value="<?php echo "$touristname"; ?>" />
+                                              </td>
+                                          </tr>
+                                          <tr>
+                                              <td style="vertical-align:middle;"> E-mail: </td>
+                                              <td style="vertical-align:middle;">
+                                                  <input type="text" style="width:250px; font-size:18px;" class="form-control" id="edit_email" value="<?php echo "$touristemail"; ?>" />
+                                              </td>
+                                          </tr>
+                                          <tr>
+                                              <td style="vertical-align:middle;"> Address: </td>
+                                              <td style="vertical-align:middle;">
+                                                  <input type="text" style="width:250px; font-size:18px;" class="form-control" id="edit_address" value="<?php echo "$touristaddress"; ?>" />
+                                              </td>
+                                          </tr>
+                                          <tr>
+                                              <td style="vertical-align:middle;"> City: </td>
+                                              <td style="vertical-align:middle;">
+                                                  <input type="text" style="width:250px; font-size:18px;" class="form-control" id="edit_city" value="<?php echo "$touristcity"; ?>" />
+                                              </td>
+                                          </tr>
+                                          <tr>
+                                              <td style="vertical-align:middle;"> State: </td>
+                                              <td style="vertical-align:middle;">
+                                                  <input type="text" style="width:250px; font-size:18px;" class="form-control" id="edit_state" value="<?php echo "$touriststate"; ?>" />
+                                              </td>
+                                          </tr>
+                                          <tr>
+                                              <td style="vertical-align:middle;"> date of Birth: </td>
+                                              <td style="vertical-align:middle;">
+                                                  <input type="text" style="width:250px; font-size:18px;" class="form-control" id="edit_dob" value="<?php echo "$touristdateofbirth"; ?>" />
+                                              </td>
+                                          </tr>
+                                          <tr>
+                                              <td style="vertical-align:middle;"> Gender: </td>
+                                              <td style="vertical-align:middle;">
+                                                  <input type="text" style="width:250px; font-size:18px;" class="form-control" id="edit_gender" value="<?php echo "$touristgender"; ?>" />
+                                              </td>
+                                          </tr>
+                                          <tr>
+                                              <td style="vertical-align:middle;"> Contact No.: </td>
+                                              <td style="vertical-align:middle;">
+                                                  <input type="text" style="width:250px; font-size:18px;" class="form-control" id="edit_number" value="<?php echo "$touristnumber"; ?>" />
+                                              </td>
+                                          </tr>
+                                      </table>
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-primary" onclick="updateTourist()" >Save</button>
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
+                            
+                            <?php
+                                $name="";
+                                        echo "<script> $name = document.getElementById('edit_name').value; </script>";                                      
+                            ?>
+                            
+                            <script type="text/javascript">
+                                function updateTourist(){
+                                    var name = document.getElementById('edit_name').value;
+                                    var email = document.getElementById('edit_email').value;
+                                    var address = document.getElementById('edit_address').value;
+                                    var state = document.getElementById('edit_state').value;
+                                    var city = document.getElementById('edit_city').value;
+                                    var gender = document.getElementById('edit_gender').value;
+                                    var dob = document.getElementById('edit_dob').value;
+                                    var no = document.getElementById('edit_number').value;
+                                    var data={
+                                        name:name,
+                                        email:email,
+                                        address:address,
+                                        state:state,
+                                        city:city,
+                                        gender:gender,
+                                        dob:dob,
+                                        no:no
+                                    };
+                                     $.ajax(
+                                         {
+                                             url: "edit_profile_tourist.php",
+                                             type:'POST',
+                                             data:data,
+                                             success: function(result){
+                                                 
+                                                 alert(result);
+                                                window.location = 'tourist_profile.php';
+                                    }});
+                                    
+                                }
+                            </script>
+                            
+                            
+                            <table style="padding-left:25px;" class="table">
+                                <tr>
+                                    <td>  Name </td>
+                                    <td> <?php echo "$touristname"; ?> </td>
+                                </tr>
+                                <tr>
+                                    <td> E-mail </td>
+                                    <td> <?php echo "$touristemail"; ?> </td>
+                                </tr>
+                                <tr>
+                                    <td> Address </td>
+                                    <td> <?php echo "$touristaddress"; ?> </td>
+                                </tr>
+                                <tr>
+                                    <td> City </td>
+                                    <td> <?php echo "$touristcity"; ?> </td>
+                                </tr>
+                                <tr>
+                                    <td> State </td>
+                                    <td> <?php echo "$touriststate"; ?> </td>
+                                </tr>
+                                <tr>
+                                    <td> Date of Birth </td>
+                                    <td> <?php echo "$touristdateofbirth"; ?> </td>
+                                </tr>
+                                <tr>
+                                    <td> Gender </td>
+                                    <td> <?php echo "$touristgender"; ?> </td>
+                                </tr>
+                                <tr>
+                                    <td> Contact No. </td>
+                                    <td> <?php echo "$touristnumber"; ?> </td>
+                                </tr>
+                            </table>
+                        </div>                   
                         
-                        <p id="destination" style="font-weight: 550; margin: 0px 25px 10px;">Destination:</p>
-                        <p id="state" style="font-weight: 550; display: inline; margin-left: 50px;"> State: </p>
-                        <div class="custom-select" style="width:200px;" id="state_select">
-                          <select style="background-color:beige; padding-right: 25px; display: inline;">
-                            <option value="0">Select State:</option>
-                            <option value="1">Audi</option>
-                            <option value="2">BMW</option>
-                            <option value="3">Citroen</option>
-                            <option value="4">Ford</option>
-                            <option value="5">Honda</option>
-                            <option value="6">Jaguar</option>
-                            <option value="7">Land Rover</option>
-                            <option value="8">Mercedes</option>
-                            <option value="9">Mini</option>
-                            <option value="10">Nissan</option>
-                            <option value="11">Toyota</option>
-                            <option value="12">Volvo</option>
-                          </select>
-                        </div>
-                        <p id="city" style="font-weight: 550; padding-top: 30px; margin-left: 50px;"> City: </p>
-                        
-                        <button class="button"><span> Search </span></button>
-                    </div>
-                </div>
-                
-                <div id="#hire_guide" class="hire-guide" style="display: none;">
-                    <div id="myOverlay" class="overlay">
-                      <div class="overlay-content">
-                        <form action="">
-                          <input type="text" placeholder="Search guide or Place .." id="search">
-                          <button type="submit"><i class="fa fa-search"></i></button>
-                        </form>
+                    
                       </div>
-                    </div>
-                </div>
+                      
+                      <!-- Plan a tour Section -->
+                      <div id="#plan_tour" class="plan_tour_container" style="display: none;">      
+                                    
+                        <div class="tour_plan">
+                            <p style="font-size:24px"><b>Plan a Trip!!!</b></p>
+                            <form method="POST">
+                                <table class="table" style="vertical-align:middle;">
+                                    <tr>
+                                        <td style="width:125px; vertical-align: middle;"> State </td>
+                                        <td><input type="text" class="form-control" id="state" placeholder="State" style="width:250px; font-size:20px;" value="" /> </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="vertical-align: middle;"> City </td>
+                                        <td><input type="text" class="form-control" id="city" style="width:250px; font-size:20px;" placeholder="City" value="" /> </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="vertical-align: middle;"> From </td>
+                                        <td> <input type="date" class="form-control" style="width:250px; font-size:20px;" id="start"/> </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="vertical-align: middle;"> To </td>
+                                        <td> <input type="date" class="form-control" style="width:250px; font-size:20px;" id="end"/> </td>                                        
+                                    </tr>
+                                    <tr>
+                                        <td style="vertical-align: middle;"> Number of People </td>
+                                        <td> <input type="text" class="form-control" id="numberofpeople" name="plannumberofpeople" style="width:250px; font-size:20px;" id="end"/> </td>                                        
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <button type="button" class="btn btn-warning" data-toggle="modal" id="showguide" data-target="#myModal">Select Guide</button>
+                                            
+                                              <!-- Modal -->
+                                              <div class="modal fade" id="myModal" role="dialog">
+                                                <div class="modal-dialog">
+
+                                                  <!-- Modal content-->
+                                                  <div class="modal-content">
+                                                    <div class="modal-header">
+                                                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                      <h4 class="modal-title">Select Guide</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        
+                                                      <input type="text" id="myInput" placeholder="Search for guide.." title="Type in guide name">
+                                                        
+                                                        <table class="table" id="table" style="font-weight:0">
+                                                            <tr id="attachguide">
+                                                                <th>Guide Name</th>
+                                                                <th>Guide Rating</th>
+                                                                <th>Guide Price</th>
+                                                            </tr>
+                                                        </table>
+                                                        
+                                                        
+                                                        <script type="text/javascript">
+            
+            
+            var value;
+            $(document).ready(function(){
+                $("#showguide").click(function(){
+                    debugger;
+                    
+                    var state = $("#state").val();
+                    var city = $("#city").val();
+                    if(state == "" || city == "" )
+                        {
+                            alert("Enter state and city.");
+                            window.location.replace("http://localhost/GuideMan/tourist_profile.php#plan_tour");
+                            $("#showdailogPopup").hide();
+                            
+                        }
+                    else{
+                        $.ajax({
+                        url:"showguide.php",
+                        method:"POST",
+                        data:{state:state,city:city,method:"showguide"},
+                        success:function(response){
+                            
+                            $("#attachguide").after(response);
+                            $("#showdailogPopup").show();
+                        }
+                    });
+                    }
+                    
+                });
                 
-                <div id="#history" class="history" style="display: none;">
-                    <div id="tours" class="tours_nav">
-                        <div id="Past-tours">
-                            <button class="button Past-tours"><span> Recent Tours </span></button>
+                $("#selectGuideOkButton").click(function(){
+                    debugger;
+                    var radioSelectedValue = $('input[type=radio][name=selectguide]:checked').val();
+                    var selectedguide = radioSelectedValue.split('_')[0];
+                    var selectedguideprice = radioSelectedValue.split('_')[1];
+//                    var selectedguide = $('input[type=radio][name=selectguide]:checked').val();
+//                    var selectedguide = $('input[type=radio][name=selectguide]:checked').val();
+                    var selectedguideId = $('input[type=radio][name=selectguide]:checked').parents('tr').attr("id");
+                    if(selectedguide == undefined )
+                        {
+                            alert("Please select Guide");
+                            $(".guideadded").remove();
+                            $("#showdailogPopup").hide();
+                    }else{
+//                            window.location.replace("http://localhost/GuideMan_29_3/GuideMan/tourist_profile.php#plan_tour");                          
+                        $(".guideadded").remove();
+                            $currentURL = $(location).attr('href');
+                            window.location.href = $currentURL+'#id='+selectedguideId;
+                            $("#showdailogPopup").hide();
+                            $("#test").val(selectedguide);
+                        $("#guideprice").val(selectedguideprice);
+                        }
+                    
+
+                });
+                
+                $("#selectGuideCancelButton").click(function(){
+                    location.reload();
+                });
+                
+                 $("#plan_trip").click(function(){
+                debugger;
+
+                    var touristname = $("#tourist_name").text();
+                    var guidename = document.getElementById("test").value;
+                    var state = document.getElementById("state").value;
+                    var city = document.getElementById("city").value;
+                    var fromdatetravel = document.getElementById("start").value;
+                    var todatetravel = document.getElementById("end").value;
+                    var numberofpeople = document.getElementById("numberofpeople").value;
+
+                    //for number of days
+
+                    // First we split the values to arrays date1[0] is the year, [1] the month and [2] the day
+                    fromdate = fromdatetravel.split('-');
+                    todate = todatetravel.split('-');
+
+                    // Now we convert the array to a Date object, which has several helpful methods
+                    fromdate = new Date(fromdate[0], fromdate[1], fromdate[2]);
+                    todate = new Date(todate[0], todate[1], todate[2]);
+
+                    // We use the getTime() method and get the unixtime (in milliseconds, but we want seconds, therefore we divide it through 1000)
+                    fromdate_unixtime = parseInt(fromdate.getTime() / 1000);
+                    todate_unixtime = parseInt(todate.getTime() / 1000);
+
+                    // This is the calculated difference in seconds
+                    var timeDifference = todate_unixtime - fromdate_unixtime;
+
+                    // in Hours
+                    var timeDifferenceInHours = timeDifference / 60 / 60;
+
+                    // and finaly, in days :)
+                    var NoOfDays = timeDifferenceInHours  / 24;
+
+                    var guideID = $(location).attr('href').split('id=')[1];
+
+                    var tourId = "";
+                    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+                    for (var i = 0; i < 5; i++){
+                        tourId += possible.charAt(Math.floor(Math.random() * possible.length));
+                    }
+
+                    if(state == "" || city == "" || fromdatetravel == " "  ||todatetravel == " " )
+                        {
+                            alert("Enter every details.");
+                            location.reload(true);
+                        }
+                    else{
+                        debugger;
+                        $.ajax({
+                            url:"showguide.php",
+                            method:"POST",
+                            data:{tourId:tourId,touristname:touristname,NoOfDays:NoOfDays,state:state,city:city,numberofpeople:numberofpeople,fromdatetravel:fromdatetravel,todatetravel:todatetravel,guideID:guideID,guidename:guidename,method:"finalGuideSelected"},
+                            success:function(response){
+                                alert(response);
+                            }
+                        });
+
+                    }
+            });
+            $(".hireGuide").click(function(){
+//                window.location.href = '';
+                 var touristname = $("#tourist_name").text();
+                var selectedguideId = $(this).parents('tr').attr("id");
+                $.ajax({
+                            url:"showguide.php",
+                            method:"POST",
+                            data:{touristname:touristname,selectedguideId:selectedguideId,method:"hireguide"},
+                            success:function(response){
+                                var jsonObject = JSON.parse(response);    
+                                var guide_id = jsonObject.guide_id;
+                                var guideprice = jsonObject.guideprice;
+                                var guidename = jsonObject.guidename;
+                                var guidecity = jsonObject.guidecity;
+                                var guidestate = jsonObject.guidestate;
+                                
+                                $currentURL = $(location).attr('href');
+                                window.location.href = $currentURL+'#id='+guide_id;
+                                $(".plan_tour_container").show();
+                                $("#state").val(guidestate);
+                                $("#city").val(guidecity);
+                                $("#test").val(guidename);
+                                $("#guideprice").val(guideprice);
+                                $(".hire-guide").hide();
+
+                            }
+//                $(".plan_tour_container").show();
+                
+            });
+            
+            });
+        });
+            
+        </script>
+                                                        
+                                                        
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal" id="selectGuideOkButton">Ok</button>
+                                                      <button type="button" id="selectGuideCancelButton" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                  </div>
+
+                                                </div>
+                                              </div>
+                                        </td>
+                                        <td>
+                                            <p contenteditable="false"><input type="text" class="form-control" style="width:250px; font-size:20px;" id="test" disabled=true value=""></p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="vertical-align: middle;"> Amount </td>
+                                        <td>
+                                            <p contenteditable="false"><input type="text" class="form-control" style="width:250px; font-size:20px;" id="guideprice" disabled=true value=""></p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" style="padding-left:75px; padding-top:25px;">
+                                            <input type="submit" class="btn" id="plan_trip" value="Submit" style="font-size:18px;" />
+                                        </td>
+                                    </tr>
+                                    
+                                </table>
+                            </form>                           
+                            
+                         </div>
+                          
+                       </div>
+                      
+                      <!-- Hire Guide Section -->
+                      <div id="#hire_guide" class="hire-guide" style="display: none;">
+                        <div id="myOverlay" class="overlay">
+                          <div class="overlay-content">
+                            <input type="text" id="myInput" placeholder="Search for guide.." title="Type in guide name">
+                              
+                              <center>
+                              <table id="myTable" style="background-color: white; overflow: auto; margin:25px; width:auto; align:center;">
+                                  <thead>
+                                      <th style="width:350px; text-align:center;"> Guide Name </th>
+                                      <th style="width:350px; text-align:center;"> Guide Ratings </th>
+                                      <th style="width:250px; text-align:center;"> State </th>
+                                      <th style="width:250px; text-align:center;"> City </th>
+                                      <th></th>
+                                  </thead>
+                                  <tbody style="font-weight:250;">
+                              
+                               <?php
+                              
+                              $guide = "select guide_id,guidename,guiderating,guidestate,guidecity,guideprice from tbl_guide order by guiderating desc limit 10";
+                            $query = mysqli_query($conn,$guide);
+                                            while($row = mysqli_fetch_array($query)){
+                                              echo "<tr id=".$row["guide_id"].">".                                         
+                                                   "<td id=".$row["guidename"].">".$row["guidename"]."</td>".
+                                                   "<td id=".$row["guiderating"].">".$row["guiderating"]."</td>".
+                                                   "<td id=".$row["guidestate"].">".$row["guidestate"]."</td>".
+                                                   "<td id=".$row["guidecity"]. ">".$row["guidecity"]."</td>".
+                                                   "<td ><input type='submit' class='hireGuide' id='button_".$row["guide_id"]."' value='Select Guide'></td>".
+                                                   "</tr>";
+                                            }
+                                ?>    
+                              
+                          </tbody>
+                              </table>
+                              </center>
+                              
+                          </div>
                         </div>
-                        <div id="Future-tours">
-                            <button class="button Future-tours"><span> Tour </span></button>
-                        </div>
-                    </div>
-                </div>
-            </div>            
-        </main>         
+                      </div>
+                      
+                      <!-- History Section -->
+                      <div id="#history" class="history" style="display: none;">
+                          
+                        <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for tours.." title="Type in a city/state">
+                          
+                        <table id="myTable" style="background-color: white; overflow: auto;">
+                          <thead>
+                            <th>Tour Id</th>
+                            <th>Guide Name</th>
+                            <th>No Of days</th>
+                            <th>Tourist Count</th>
+                            <th>Description</th>
+                            <th>Payment</th>
+                            <th>City</th>
+                            <th>State</th>
+                          </thead>
+                          <tbody>
+                              
+                               <?php
+                              
+                              $tour = "select * from tbl_tour where touristemail = '$touristemail'";
+                            $query_tour = mysqli_query($conn,$tour);
+                                            while($row = mysqli_fetch_array($query_tour)){
+                                               echo "<tr>".
+                                                   "<td>".$row["tour_id"]."</td>".                                             
+                                                   "<td>".$row["guide_name"]."</td>".
+                                                   "<td>".$row["days"]."</td>".
+                                                   "<td>".$row["peoplenumber"]."</td>".
+                                                   "<td>".$row["description"]."</td>".
+                                                   "<td>".$row["payment"]."</td>".
+                                                   "<td>".$row["city"]."</td>".
+                                                   "<td>".$row["state"]."</td>".
+                                                   "</tr>";
+                                            }
+                                ?>    
+                              
+                          </tbody>
+                        </table>
+
+                      </div>
+                      
+                   </div>
+               </div>
+            </div>
+
+        </main>  
+        
         <!--Footer section-->
         <footer>
 			<div id="footer">

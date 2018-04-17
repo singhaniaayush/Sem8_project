@@ -1,7 +1,8 @@
 <?php
-
+session_start();
 //Login Check
 if (isset($_POST["submitLogin"])) {
+    
     $servername = "localhost";
       $username = "root";
       $password = "";
@@ -27,9 +28,6 @@ if ($conn->connect_error) {
        $row = mysqli_fetch_array($query);
           if($query->num_rows > 0)
            {
-              
-              ////Starting the session
-              session_start();
               
               $touristname = $row['touristname'];
               
@@ -76,8 +74,12 @@ if ($conn->connect_error) {
 //             $returnArray['message'] = "WELCOME";
 //             $returnArray['id'] = $row['tourist_id'];
                  
-                 ///Storing in session
+                 $guidename = $row['guidename'];
                  
+                 ///Storing in session
+                 $_SESSION['status'] = true;
+                 $_SESSION['name'] = $guidename;
+                 $_SESSION['url'] = "guide_profile.php";                
                  $_SESSION['email'] = $touristemail;
                  
               echo "<script>
@@ -239,7 +241,7 @@ if (isset($_POST["SubmitSignUp"])) {
 			<div class="container" style="height:125px; margin:0px; width:100%;">
 				<div class="nav-header" style="top:15px;">
 					<a href="#" class="js-fh5co-nav-toggle fh5co-nav-toggle dark"><i></i></a>
-					<h1 id="fh5co-logo"><a href="index.html"><img src="Guideman_logo.jpg" height="100" width="200"/></a>
+					<h1 id="fh5co-logo"><a href="index.html"><img src="Guideman_logo.jpg" height="100" width="200" style="max-width:200px;" /></a>
                     </h1>
                     
 					<!-- START #fh5co-menu-wrap -->

@@ -1,11 +1,9 @@
 <?php
 session_start();
 
-$tab = 'ayush';
-if($_SESSION['status'] == true){
-    
+if(isset($_SESSION["status"])){
     $tab = $_SESSION['name'];
-    $url = 'tourist_profile.php';
+    $url = $_SESSION['url'];
 }
 else{
     $tab = 'Login/SignUp';
@@ -207,14 +205,14 @@ img {vertical-align: middle;}
 
 		<!-- end:header-top -->
 
-    <div class="slideshow-container">
+    <div class="slideshow-container" style="margin-top:50px;">
 
 <div class="mySlides fade">
   <div class="numbertext">1 / 3</div>
   <img src="images/agra.jpg" style="width:100%; height:500px;">
   <div class="text content"> 
-  	<h1>Place 1</h1>
-    <p>Lorem ipsum dolor sit amet, an his etiam torquatos. Tollit soleat phaedrum te duo, eum cu recteque expetendis neglegentur. Cu mentitum maiestatis persequeris pro, pri ponderum tractatos ei.</p>
+  	<h1>Taj Mahal</h1>
+    <p> It is one of the well recognized site in India. Built by Shah Jahan in the memory of his beloved wife Mumtaz  </p>
   </div>
 </div>
 
@@ -222,8 +220,8 @@ img {vertical-align: middle;}
   <div class="numbertext">2 / 3</div>
   <img src="images/delhi.jpg" style="width:100%;  height:500px;">
   <div class="text content"> 
-  	<h1>Place 2</h1>
-    <p>Lorem ipsum dolor sit amet, an his etiam torquatos. Tollit soleat phaedrum te duo, eum cu recteque expetendis neglegentur. Cu mentitum maiestatis persequeris pro, pri ponderum tractatos ei.</p>
+  	<h1>Gateway of India</h1>
+    <p> Built in Delhi in the memory of martryed Jawans of brave Indian Soldiers </p>
   </div>
 </div>
 
@@ -231,8 +229,8 @@ img {vertical-align: middle;}
   <div class="numbertext">3 / 3</div>
   <img src="images/darjeling.jpg" style="width:100%; height:500px;">
   <div class="text content"> 
-  	<h1>Place 3</h1>
-    <p>Lorem ipsum dolor sit amet, an his etiam torquatos. Tollit soleat phaedrum te duo, eum cu recteque expetendis neglegentur. Cu mentitum maiestatis persequeris pro, pri ponderum tractatos ei.</p>
+  	<h1>Darjeling</h1>
+    <p> It is one of the most visited place in India. A hill station with great sites to visit. </p>
   </div>
 </div>
 

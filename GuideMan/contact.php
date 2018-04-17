@@ -1,11 +1,9 @@
 <?php
 session_start();
 
-$tab = 'ayush';
-if($_SESSION['status'] == true){
-    
+if(isset($_SESSION["status"])){
     $tab = $_SESSION['name'];
-    $url = 'tourist_profile.php';
+    $url = $_SESSION['url'];
 }
 else{
     $tab = 'Login/SignUp';
@@ -166,7 +164,6 @@ else{
 						</div>
 					</div>
 				</div>
-			</div>
 		</footer>
 
 	</div>
